@@ -18,8 +18,13 @@
 - `python poc.py --test`: passed (`self-test passed: header, qname, compression pointers, and loop bounds verified`).
 - `ruff check poc.py`: passed (`0` errors).
 
+### Remote Bootstrap
+- Published repository to GitHub: `netequator/dnswatch` (commit `406ca73`).
+- Configured topics: `dns`, `network-security`, `packet-sniffer`, `python3`, `rfc1035`, `traffic-analysis`.
+- Filed tracking Issue #1: `decode resource records (a, aaaa, cname, txt, ptr) and edns0 opt` (https://github.com/netequator/dnswatch/issues/1).
+
 ### Next Steps (Day 2)
 - Extract modular package structure (`dnswatch/parser.py`, `dnswatch/cli.py`).
 - Implement Resource Record dissection for Answer, Authority, and Additional sections (A, AAAA, CNAME, TXT, PTR).
 - Implement RFC 6891 EDNS(0) `OPT` pseudo-record parsing (`TYPE 41`).
-- File GitHub Issue #1 for Resource Record expansion.
+- Open feature branch (`feature/rr-dissector`) and submit PR resolving Issue #1.
