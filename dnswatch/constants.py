@@ -1,0 +1,82 @@
+"""Protocol constants and wire mappings for RFC 1035 and RFC 6891."""
+
+# RFC 1035 / RFC 3596 / RFC 6891 Query & Resource Record Types
+TYPE_A = 1
+TYPE_NS = 2
+TYPE_CNAME = 5
+TYPE_SOA = 6
+TYPE_PTR = 12
+TYPE_MX = 15
+TYPE_TXT = 16
+TYPE_AAAA = 28
+TYPE_SRV = 33
+TYPE_OPT = 41
+TYPE_ANY = 255
+
+QTYPE_MAP: dict[int, str] = {
+    TYPE_A: "A",
+    TYPE_NS: "NS",
+    TYPE_CNAME: "CNAME",
+    TYPE_SOA: "SOA",
+    TYPE_PTR: "PTR",
+    TYPE_MX: "MX",
+    TYPE_TXT: "TXT",
+    TYPE_AAAA: "AAAA",
+    TYPE_SRV: "SRV",
+    TYPE_OPT: "OPT",
+    TYPE_ANY: "ANY",
+}
+
+# Reverse lookup map for CLI and filters
+TYPE_NAME_TO_INT: dict[str, int] = {v: k for k, v in QTYPE_MAP.items()}
+
+# Query Classes
+CLASS_IN = 1
+CLASS_CS = 2
+CLASS_CH = 3
+CLASS_HS = 4
+CLASS_ANY = 255
+
+QCLASS_MAP: dict[int, str] = {
+    CLASS_IN: "IN",
+    CLASS_CS: "CS",
+    CLASS_CH: "CH",
+    CLASS_HS: "HS",
+    CLASS_ANY: "ANY",
+}
+
+# Response Codes (RCODE)
+RCODE_NOERROR = 0
+RCODE_FORMERR = 1
+RCODE_SERVFAIL = 2
+RCODE_NXDOMAIN = 3
+RCODE_NOTIMP = 4
+RCODE_REFUSED = 5
+RCODE_YXDOMAIN = 6
+RCODE_YXRRSET = 7
+RCODE_NXRRSET = 8
+RCODE_NOTAUTH = 9
+RCODE_NOTZONE = 10
+RCODE_BADVERS = 16  # RFC 6891 EDNS bad version
+
+RCODE_MAP: dict[int, str] = {
+    RCODE_NOERROR: "NOERROR",
+    RCODE_FORMERR: "FORMERR",
+    RCODE_SERVFAIL: "SERVFAIL",
+    RCODE_NXDOMAIN: "NXDOMAIN",
+    RCODE_NOTIMP: "NOTIMP",
+    RCODE_REFUSED: "REFUSED",
+    RCODE_YXDOMAIN: "YXDOMAIN",
+    RCODE_YXRRSET: "YXRRSET",
+    RCODE_NXRRSET: "NXRRSET",
+    RCODE_NOTAUTH: "NOTAUTH",
+    RCODE_NOTZONE: "NOTZONE",
+    RCODE_BADVERS: "BADVERS",
+}
+
+# Protocol Wire Limits
+MAX_NAME_LENGTH = 253
+MAX_LABEL_LENGTH = 63
+MAX_POINTER_HOPS = 16
+HEADER_LENGTH = 12
+RR_FIXED_HEADER_LENGTH = 10

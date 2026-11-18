@@ -1,0 +1,56 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dnswatch"
+version = "0.1.0"
+description = "Zero-dependency passive DNS network monitor & wire-format parser"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "BSD-3-Clause"
+authors = [
+    { name = "netequator" }
+]
+keywords = [
+    "dns",
+    "network-security",
+    "packet-sniffer",
+    "passive-dns",
+    "rfc1035",
+    "rfc6891",
+    "traffic-analysis"
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: System Administrators",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Security",
+    "Topic :: System :: Networking :: Monitoring",
+]
+dependencies = []
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "ruff>=0.17.0",
+]
+
+[project.scripts]
+dnswatch = "dnswatch.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["dnswatch*"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I"]
