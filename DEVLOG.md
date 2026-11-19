@@ -56,3 +56,27 @@
 - `python poc.py --test`: passed.
 - `dnswatch --help`: verified console script execution.
 
+
+## 2026-11-19 — Day 3: Envelope Decapsulation, Shannon Entropy & NXDOMAIN Tracker (Issue #3)
+
+### Design Notes
+- Implemented wire envelope decapsulation helper `unwrap_dns_payload` (`dnswatch/envelope.py`):
+  - Strips Ethernet II framing and peels single (802.1Q) and double (802.1ad QinQ) VLAN tags.
+  - Handles IPv4 headers with IHL verification and fragmentation detection (flags non-initial fragments where L4 is absent).
+  - Handles IPv6 headers with extension header traversal (Hop-by-Hop, Routing, Fragment, Destination Options, AH).
+  - Decapsulates UDP and TCP with RFC 1035 §4.2.2 2-byte big-endian message length prefix framing.
+  - Added raw IP auto-detection for TUN/WireGuard captures.
+- Implemented Shannon entropy computation and DNS tunneling detection (`dnswatch/entropy.py`):
+  - Normalized mathematical Shannon entropy $H(X) = -\sum p_i \log_2(p_i)$ over lowercase character frequencies.
+  - Single-label tunneling detector: triggers on label length $\ge 20$ and entropy $\ge 3.75$ bits.
+  - Chunked multi-label prefix detector: concatenates subdomain prefix labels, triggering on combined prefix length $\ge 32$ and entropy $\ge 3.75$ bits to detect covert iodine and dnscat2 tunneling.
+- Implemented sliding-window NXDOMAIN burst tracker (`dnswatch/tracker.py`):
+  - Tracks rolling 60-second query window per client IP.
+  - Flags NXDOMAIN bursts when query count $\ge 10$ and NXDOMAIN ratio $\ge 50\%$.
+  - Includes memory conservation pruning for inactive client state.
+
+### Verification
+- `ruff check .`: passed (`0` errors across all modules and tests).
+- `pytest tests/ -v`: 36 passed in 0.13s.
+
+
