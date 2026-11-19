@@ -1,6 +1,7 @@
 """dnswatch - Zero-dependency passive DNS network monitor & wire-format parser."""
 
 from dnswatch.constants import QCLASS_MAP, QTYPE_MAP, RCODE_MAP
+from dnswatch.envelope import ParsedEnvelope, unwrap_dns_payload
 from dnswatch.models import DNSHeader, DNSPacket, DNSQuestion, DNSResourceRecord, EDNS0Option
 from dnswatch.parser import decode_name, parse_dns_packet, parse_header
 
@@ -15,6 +16,8 @@ __all__ = [
     "DNSQuestion",
     "DNSResourceRecord",
     "EDNS0Option",
+    "ParsedEnvelope",
+    "unwrap_dns_payload",
     "decode_name",
     "parse_dns_packet",
     "parse_header",
