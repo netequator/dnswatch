@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 480" width="100%" height="100%">
+  <defs>
+    <style>
+      .bg { fill: #0d1117; }
+      .card { fill: #161b22; stroke: #30363d; stroke-width: 1.5; rx: 6; }
+      .header-card { fill: #1f242c; stroke: #30363d; stroke-width: 1; rx: 4; }
+      .text-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 600; }
+      .text-code { font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace; font-size: 13px; }
+      .text-meta { font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace; font-size: 11px; fill: #8b949e; }
+      .arrow { stroke: #58a6ff; stroke-width: 2; marker-end: url(#arrowhead); }
+      .blue { fill: #58a6ff; }
+      .green { fill: #3fb950; }
+      .amber { fill: #d29922; }
+      .red { fill: #f85149; }
+      .white { fill: #f0f6fc; }
+      .muted { fill: #8b949e; }
+    </style>
+    <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#58a6ff" />
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="480" class="bg" />
+
+  <!-- Top Title Bar -->
+  <rect x="40" y="24" width="1120" height="54" class="card" />
+  <text x="60" y="58" class="text-title blue">dnswatch</text>
+  <text x="145" y="58" class="text-meta">/ wire-format dns protocol analyzer &amp; covert tunneling detector</text>
+  <text x="1000" y="58" class="text-meta">ZERO EXTERNAL DEPENDENCIES</text>
+
+  <!-- Stage 1: Envelope Decapsulation -->
+  <rect x="40" y="110" width="255" height="330" class="card" />
+  <rect x="40" y="110" width="255" height="42" class="header-card" />
+  <text x="56" y="137" class="text-title blue">1. Wire Envelope</text>
+  <text x="56" y="180" class="text-code white">L2 Ethernet II</text>
+  <text x="56" y="200" class="text-meta">DLT_EN10MB / 14-byte</text>
+  <text x="56" y="235" class="text-code amber">VLAN Peeling</text>
+  <text x="56" y="255" class="text-meta">802.1Q / 802.1ad QinQ</text>
+  <text x="56" y="290" class="text-code white">L3 IPv4 / IPv6</text>
+  <text x="56" y="310" class="text-meta">IHL checks, frag drop</text>
+  <text x="56" y="345" class="text-code green">L4 UDP / TCP</text>
+  <text x="56" y="365" class="text-meta">Port 53 / 2B TCP prefix</text>
+  <text x="56" y="410" class="text-meta blue">unwrap_dns_payload()</text>
+
+  <!-- Arrow 1 -> 2 -->
+  <line x1="295" y1="275" x2="325" y2="275" class="arrow" />
+
+  <!-- Stage 2: RFC 1035 / 6891 Dissector -->
+  <rect x="330" y="110" width="265" height="330" class="card" />
+  <rect x="330" y="110" width="265" height="42" class="header-card" />
+  <text x="346" y="137" class="text-title green">2. Wire Dissector</text>
+  <text x="346" y="180" class="text-code white">12-Byte Header</text>
+  <text x="346" y="200" class="text-meta">TXID, QR, Flags, RCODE</text>
+  <text x="346" y="235" class="text-code green">Name Decompression</text>
+  <text x="346" y="255" class="text-meta">Cursor lock + loop trap</text>
+  <text x="346" y="290" class="text-code white">Resource Records</text>
+  <text x="346" y="310" class="text-meta">A, AAAA, CNAME, TXT, PTR</text>
+  <text x="346" y="345" class="text-code amber">RFC 6891 EDNS(0)</text>
+  <text x="346" y="365" class="text-meta">TYPE 41 OPT, buffer size</text>
+  <text x="346" y="410" class="text-meta green">parse_dns_packet()</text>
+
+  <!-- Arrow 2 -> 3 -->
+  <line x1="595" y1="275" x2="625" y2="275" class="arrow" />
+
+  <!-- Stage 3: Entropy & Anomaly Engine -->
+  <rect x="630" y="110" width="265" height="330" class="card" />
+  <rect x="630" y="110" width="265" height="42" class="header-card" />
+  <text x="646" y="137" class="text-title amber">3. Threat Analysis</text>
+  <text x="646" y="180" class="text-code red">Shannon Entropy</text>
+  <text x="646" y="200" class="text-meta">H(X) = -&#931; p_i log2(p_i)</text>
+  <text x="646" y="235" class="text-code amber">Single-Label Tunnel</text>
+  <text x="646" y="255" class="text-meta">len &#8805; 20B &amp; H &#8805; 3.75b</text>
+  <text x="646" y="290" class="text-code red">Chunked Prefix Tunnel</text>
+  <text x="646" y="310" class="text-meta">prefix &#8805; 32B &amp; H &#8805; 3.75b</text>
+  <text x="646" y="345" class="text-code amber">NXDOMAIN Burst</text>
+  <text x="646" y="365" class="text-meta">60s rolling window &gt; 50%</text>
+  <text x="646" y="410" class="text-meta amber">analyze_domain()</text>
+
+  <!-- Arrow 3 -> 4 -->
+  <line x1="895" y1="275" x2="925" y2="275" class="arrow" />
+
+  <!-- Stage 4: Telemetry & Lab Sinkhole -->
+  <rect x="930" y="110" width="230" height="330" class="card" />
+  <rect x="930" y="110" width="230" height="42" class="header-card" />
+  <text x="946" y="137" class="text-title blue">4. Telemetry Stream</text>
+  <text x="946" y="180" class="text-code white">Structured JSONL</text>
+  <text x="946" y="200" class="text-meta">SIEM-ready stdout</text>
+  <text x="946" y="235" class="text-code green">Determinism</text>
+  <text x="946" y="255" class="text-meta">100% pytest wire-suite</text>
+  <text x="946" y="290" class="text-code amber">PCAP Replay</text>
+  <text x="946" y="310" class="text-meta">Timestamp-driven eval</text>
+  <text x="946" y="345" class="text-code blue">Controlled Sinkhole</text>
+  <text x="946" y="365" class="text-meta">Localhost synthetic RR</text>
+  <text x="946" y="410" class="text-meta blue">CLI &amp; Python Library</text>
+</svg>
