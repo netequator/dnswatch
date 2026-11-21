@@ -446,4 +446,4 @@ When executed with `--jsonl`, `dnswatch` emits newline-delimited JSON events des
 
 ## LICENSE
 
-BSD-3-Clause. Authored and maintained by the `netequator` project.
+BSD-3-Clause
