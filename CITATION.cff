@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+message: "If you use this software in your research or lab work, please cite it as below."
+authors:
+  - name: "netequator"
+title: "dnswatch: Zero-Dependency Passive DNS Protocol Dissector, Covert Tunneling Detector & Sinkhole"
+version: 0.1.0
+date-released: 2026-11-21
+url: "https://github.com/netequator/dnswatch"
+license: BSD-3-Clause
+repository-code: "https://github.com/netequator/dnswatch"
+abstract: "Zero-dependency wire-format Domain Name System (DNS) protocol analyzer, covert tunneling detector using Shannon entropy, SSRF DNS rebinding analyzer, and controlled RFC 1035 sinkhole responder."
+keywords:
+  - "network-security"
+  - "packet-analysis"
+  - "dns"
+  - "rfc1035"
+  - "rfc6891"
+  - "shannon-entropy"
+  - "dns-sinkhole"
+  - "dns-rebinding"
