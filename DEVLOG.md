@@ -80,3 +80,28 @@
 - `pytest tests/ -v`: 36 passed in 0.13s.
 
 
+
+
+## 2026-11-21 — Day 4: RFC 1035 Synthetic Responder, Blocklist Engine & DNS Rebinding Detector (Issue #5)
+
+### Design Notes
+- Implemented zero-dependency RFC 1035 synthetic response generator (`dnswatch/responder.py`):
+  - Echoes query transaction ID, validates bounds and non-empty Question sections.
+  - Slices QNAME, QTYPE, and QCLASS while constructing authoritative response flags (`QR=1`, `AA=1`, `RA=1`, and preserves `RD`).
+  - Implements pointer compression back to QNAME at byte offset 12 (`b"\xc0\x0c"`).
+  - Serializes synthetic `A` records (`0.0.0.0` or user-defined IP) and `AAAA` records (`::` or user-defined IPv6).
+  - Supports authoritative `NXDOMAIN` (RCODE 3) generation with `ANCOUNT=0`.
+- Implemented in-memory domain blocklist matcher (`dnswatch/sinkhole.py`):
+  - Ingests plain text and hosts-file formats (`0.0.0.0 bad.org`, `127.0.0.1 tracker.com`, comments `#`).
+  - Implements $O(1)$ exact domain hash matching and $O(k)$ parent label wildcard suffix lookups (`*.malware.test`).
+- Implemented DNS Rebinding security anomaly detector (`dnswatch/rebinding.py`):
+  - Traverses response Answer sections and inspects resolved `A` and `AAAA` addresses.
+  - Automatically exempts legitimate reserved internal namespaces (`.local`, `.lan`, `.internal`, `.home.arpa`, `localhost`).
+  - Flags SSRF DNS rebinding attacks when public domain names map to RFC 1918 private IPv4 (`10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`), loopback (`127.0.0.0/8`), link-local (`169.254.0.0/16`), CGNAT (`100.64.0.0/10`), or IPv6 loopback (`::1`) and ULA (`fc00::/7`).
+- Integrated into CLI console engine (`dnswatch/cli.py`):
+  - Added CLI parameters: `--sinkhole <file>`, `--sink-ip <ip>`, `--sink-mode <a|nxdomain>`, `--no-rebinding`.
+  - Intercepts blocked UDP queries on the listening socket and delivers synthetic RFC 1035 answers with JSONL audit events.
+
+### Verification
+- `ruff check .`: passed (`0` errors across all modules and tests).
+- `pytest tests/ -v`: 51 passed in 0.35s (100% pass rate).
