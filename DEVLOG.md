@@ -105,3 +105,15 @@
 ### Verification
 - `ruff check .`: passed (`0` errors across all modules and tests).
 - `pytest tests/ -v`: 51 passed in 0.35s (100% pass rate).
+
+
+## 2026-11-21 — Session 2: Repository Community Health & Governance Standards
+
+### Design Notes
+- Added complete suite of five standard open-source governance and community health files matching `neighwatch`:
+  - `LICENSE`: BSD-3-Clause matching SPDX format for `netequator` (2026).
+  - `SECURITY.md`: Supported versions (0.1.x), threat model (wire parser bounds, pointer loops, EDNS0 limits, synthetic responder), and confidential disclosure process.
+  - `CONTRIBUTING.md`: Development setup, zero-dependency requirements, deterministic testing guidelines, and commit message formats.
+  - `CODE_OF_CONDUCT.md`: Professional conduct standards rooted in technical rigor and mutual respect.
+  - `CITATION.cff`: Citation metadata format activating GitHub's native "Cite this repository" sidebar feature.
+- Committed under permanent standing exemption (`debaf9d`) and synchronized with `origin/main` and release tag `v0.1.0`.
