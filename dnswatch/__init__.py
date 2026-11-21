@@ -5,6 +5,9 @@ from dnswatch.entropy import DomainEntropyResult, analyze_domain, shannon_entrop
 from dnswatch.envelope import ParsedEnvelope, unwrap_dns_payload
 from dnswatch.models import DNSHeader, DNSPacket, DNSQuestion, DNSResourceRecord, EDNS0Option
 from dnswatch.parser import decode_name, parse_dns_packet, parse_header
+from dnswatch.rebinding import RebindingAlert, detect_dns_rebinding, is_local_domain
+from dnswatch.responder import build_sinkhole_response
+from dnswatch.sinkhole import SinkholeBlocklist
 from dnswatch.tracker import NXDOMAINBurstAnomaly, NXDOMAINTracker
 
 __version__ = "0.1.0"
@@ -28,4 +31,9 @@ __all__ = [
     "decode_name",
     "parse_dns_packet",
     "parse_header",
+    "SinkholeBlocklist",
+    "build_sinkhole_response",
+    "RebindingAlert",
+    "detect_dns_rebinding",
+    "is_local_domain",
 ]
